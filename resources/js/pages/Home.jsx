@@ -7,11 +7,11 @@ import { setCategory, setSortBy } from '../redux/actions/filters';
 import { fetchPizzas } from '../redux/actions/pizzas';
 import { addPizzaToCart } from '../redux/actions/cart';
 
-const categoryNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+const categoryNames = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Closed'];
 const sortIems = [
-  { name: 'популярности', type: 'popular', order: 'desc' },
-  { name: 'цене', type: 'price', order: 'desc' },
-  { name: 'алфавит', type: 'name', order: 'asc' },
+  { name: 'popular', type: 'popular', order: 'desc' },
+  { name: 'price', type: 'price', order: 'desc' },
+  { name: 'alphabet', type: 'name', order: 'asc' },
 ];
 
 function Home() {
@@ -54,7 +54,7 @@ function Home() {
           onClickSortType={onSelectSortType}
         />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">All pizzas</h2>
       <div className="content__items">
         {isLoaded
           ? items.map((obj) => (
