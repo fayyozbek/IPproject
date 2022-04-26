@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price');
             $table->integer('category');
-            $table->string('size');
-            $table->string('type');
+            $table->string('sizes');
+            $table->string('types');
             $table->integer('rating');
             $table->timestamps();
 
