@@ -14,5 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.post.edit');
+});
+Route::get('/mail', function(){
+    $parametr=[
+        'code'=>'88888',
+        'email'=>'pasa',
+        'order'=>'qwr'
+    ];
+
+    return new App\Mail\Confirm($parametr);
 });
