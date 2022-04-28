@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/managePizza', '\App\Http\Controllers\PizzaController@index')->name('pizza.index');
+Route::get('/mail', function(){
+    $parametr=[
+        'code'=>'88888',
+        'email'=>'pasa',
+        'order'=>'qwr'
+    ];
+
+    return new App\Mail\Confirm($parametr);
+});

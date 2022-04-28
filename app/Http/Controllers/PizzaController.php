@@ -43,7 +43,10 @@ class PizzaController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'type' => 'required',
-            'dough' => 'required',
+            'price' => 'required',
+            'category' => 'required',
+            'size' => 'required',
+            'rating' => 'required',
             'image'=>'required|image',
         ]);
 
@@ -51,9 +54,18 @@ class PizzaController extends Controller
 
         try{
             $imageName = Str::random().'.'.$request->image->getClientOriginalExtension();
-            Storage::disk('public')->putFileAs('product/image', $request->image,$imageName);
-            Pizza::create($request->post()+['image'=>$imageName]);
-
+            Storage::disk('public')->putFileAs('public/image', $request->image,$imageName);
+            //Pizza::create($request->post()+['image'=>$imageName]);
+            $newComment = new Pizza([
+                'name' => $request->get('name'),
+                'type' => $request->get('type'),
+                'price' => $request->get('price'),
+                'category' => $request->get('category'),
+                'size' => $request->get('size'),
+                'rating' => $request->get('rating'),
+                'imageUrl' =>$imageName,
+            ]);
+            $newComment->save();
             return response()->json([
                 'message'=>'Product Created Successfully!!'
             ]);
