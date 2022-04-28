@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.app');
+    return view('welcome');
 });
-Route::get('/managePizza', '\App\Http\Controllers\PizzaController')->name('pizza.index');
+Route::get('/managePizza', '\App\Http\Controllers\PizzaController@index')->name('pizza.index');
 Route::get('/mail', function(){
     $parametr=[
         'code'=>'88888',

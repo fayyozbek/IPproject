@@ -12,9 +12,7 @@
         "build": "node resources/scripts/build.js",
         "test": "node resources/scripts/test.js",
         "server": "node server.js"
-
     },
-
     "proxy": "http://127.0.0.1:8000/api",
     "devDependencies": {
         "@babel/preset-react": "^7.13.13",
@@ -44,5 +42,4 @@
         "redux-thunk": "^2.4.1",
         "yard": "^1.0.3"
     }
-
 }
