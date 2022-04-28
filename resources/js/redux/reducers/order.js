@@ -1,7 +1,3 @@
-import { useDispatch } from 'react-redux';
-import { submit } from '../actions/order';
-
-
 const initialState = {
     isSubmitted: false,
     isConfirmed: false,
@@ -13,8 +9,6 @@ const initialState = {
 };
 
 const order = (state = initialState, action) => {
-    const dispatch = useDispatch();
-
     switch (action.type) {
         case 'SET_PHONE':
             return {
@@ -41,7 +35,6 @@ const order = (state = initialState, action) => {
             };
 
         case 'SUBMIT':
-            dispatch(submit(state.email, state.phone, state.address));
 
         default:
             return state;

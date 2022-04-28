@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script  defer src="js/app.js"></script>
+        <script  defer src="js/webpack.js"></script>
         <title>Laravel</title>
         <link rel="manifest" href="mix-manifest.json" />
         <!-- Fonts -->
