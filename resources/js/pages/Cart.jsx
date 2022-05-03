@@ -159,9 +159,11 @@ function Cart() {
                   <span>Back</span>
                 </Link>
               </a>
+              <Link to="/order">
               <Button onClick={onClickOrder} className="pay-btn">
                 <span>Pay now</span>
               </Button>
+              </Link>
             </div>
           </div>
         </div>
