@@ -38,31 +38,50 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label for="title">Post Title</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Title" value="{{$pizza->name}}">
                 </div>
 
                 <div class="form-group">
-                  <label for="subtitle">Post Sub Title</label>
-                  <input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="Sub Title" value="">
+                  <label for="subtitle">Price</label>
+                  <input type="text" class="form-control" id="price" name="price" placeholder="Sub Title" value="{{$pizza->price}}">
                 </div>
 
                 <div class="form-group">
-                  <label for="slug">Post Slug</label>
-                  <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug" value="">
+                  <label for="slug">category</label>
+                  <input type="text" class="form-control" id="category" name="category" placeholder="Slug" value="{{$pizza->category}}">
                 </div>
 
               </div>
-              <div class="col-lg-6">
-                <br>
-                <div class="form-group">
-                  <div class="pull-right">
-                    <label for="image">File input</label>
-                    <input type="file" name="image" id="image">
-                  </div>
+
                   <div class="checkbox pull-left">
+                      <p>Size</p>
                     <label>
-                      <input type="checkbox" name="status" value="1" > Publish
+{{--                        <p>{{dump($pizza->sizes[0])}}</p>--}}
+{{--                        <p>{{dump($pizza->sizes[1])}}</p>--}}
+{{--                        <p>{{dump($pizza->sizes)}}</p>--}}
+                        @if($pizza->sizes==26)
+                         <input type="checkbox" name="sizes"  > 26
+                        @else
+                          <input type="checkbox" name="sizes" checked value="26" > 26
+                        @endif
                     </label>
+                      <label>
+                        @if($pizza->sizes[1]==30)
+                          <input type="checkbox" name="sizes"  > 30
+                        @else
+                          <input type="checkbox" name="sizes" checked value="30" > 26
+                        @endif
+                      </label>
+                      <label>
+                        @if($pizza->sizes[2]===40)
+                            <input type="checkbox" name="sizes"  > 40
+                        @else
+                            <input type="checkbox" name="sizes" checked value="40" > 40
+                        @endif
+                      </label>
+
+
+
                   </div>
                 </div>
                 <br>

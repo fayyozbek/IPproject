@@ -21,7 +21,10 @@ class PizzaController extends Controller
         return response()->json($pizzas);
 
     }
-
+    public function list(){
+        $pizzas=Pizza::all();
+        return view('admin.pizza.index', compact('pizzas'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -77,6 +80,11 @@ class PizzaController extends Controller
         }
 
         return response()->json($newComment);
+    }
+    public function modifi(Request $request){
+        $request->validate(['id'=>'required']);
+        $pizza=Pizza::find($request['id']);
+        return view('admin.pizza.edit' ,compact('pizza'));
     }
 
     /**
