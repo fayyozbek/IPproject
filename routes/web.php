@@ -21,6 +21,7 @@ Route::get('/check', function () {
 });
 
 Route::get('/managePizza', '\App\Http\Controllers\PizzaController@list')->name('pizza.index');
+Route::get('/manageOrder', '\App\Http\Controllers\OrderController@list')->name('order.index');
 Route::get('/managePizza/edit', '\App\Http\Controllers\PizzaController@modifi')->name('pizza.edit');
 Route::get('/mail', function(){
     $parametr=[

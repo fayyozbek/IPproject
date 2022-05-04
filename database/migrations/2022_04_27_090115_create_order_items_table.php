@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('price');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('pizza_id')->references('id')->on('pizzas')->onDelete('cascade');
         });
     }
 

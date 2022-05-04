@@ -12,4 +12,7 @@ class OrderItem extends Model
 
     protected $fillable=['order_id', 'pizza_id', 'quantity', 'price'];
     protected $table='order_items';
+
 }
+
+

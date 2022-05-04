@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::resource('pizzas',\App\Http\Controllers\PizzaController::class);
+Route::post('orders', [\App\Http\Controllers\OrderController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
