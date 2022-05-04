@@ -63,7 +63,7 @@ const _setConfirm = (payload) => ({
 });
 
 
-export const submit = (email, phone, address, name) => (dispatch) => {
+export const submit = (email, phone, address, name, items) => (dispatch) => {
     dispatch(setSubmitted(true));
 
     //   axios

@@ -73,7 +73,7 @@ function Cart() {
   const onSubmit = () => {
     let valid = address.length > 3 && name.length > 3 && email.length > 10 && phone.length >= 16
     if (valid && !isSubmitted) {
-      dispatch(submit(email, phone, address, name));
+      dispatch(submit(email, phone, address, name, items));
     } else if (code.length==4 && isSubmitted) {
       dispatch(confirmCode(code));
     }
