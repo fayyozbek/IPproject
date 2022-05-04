@@ -13,7 +13,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-ticket" aria-hidden="true"></i>Post
+        <i class="fa fa-ticket" aria-hidden="true"></i>Pizzas
       <small>Create, Read, Update, Delete</small>
       </h1>
       <ol class="breadcrumb">
@@ -39,31 +39,26 @@
                 <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Title</th>
-                    <th>Sub Title</th>
-                    <th>Slug</th>
-                    <th>Creatd At</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Name</th>
+                    <th>price</th>
+                    <th>category</th>
+                    <th>size</th>
+                      <th>type</th>
+                      <th>edit</th>
+
                   </tr>
                 </thead>
                 <tbody>
-
+                @foreach($pizzas as $p)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-{{--                  <td>{{ //$loop->index + 1 }}</td>--}}
-{{--                  <td>{{ //$post->title }}</td>--}}
-{{--                  <td>{{// $post->subtitle }}</td>--}}
-{{--                  <td>{{ //$post->slug }}</td>--}}
-{{--                  <td>{{// $post->created_at }}</td>--}}
-{{--                  <td><a href="{{ route('post.edit',$post->id) }}"><span class="glyphicon glyphicon-edit"></span></a></td>--}}
-                  <td>
+                    <td>{{$p->id}}</td>
+                    <td>{{$p->name}}</td>
+                    <td>{{$p->price}}</td>
+                    <td>{{$p->category}}</td>
+                    <td>{{$p->sizes}}</td>
+                    <td>{{$p->types}}</td>
+                    <td><a href="  {{route('pizza.edit')}}?id={{$p->id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                <td>
 {{--                      <form id="delete-form-" method="post" action="{{ route('post.destroy',$post->id) }}" style="display: none">--}}
 {{--                        {{ csrf_field() }}--}}
 {{--                        {{ method_field('DELETE') }}--}}
@@ -79,6 +74,7 @@
                           }" ><span class="glyphicon glyphicon-trash"></span></a>
                   </td>
                 </tr>
+                @endforeach
                           </tr>
 
                 </tbody>
