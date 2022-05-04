@@ -5393,10 +5393,6 @@ function App() {
         path: "/cart",
         component: _pages__WEBPACK_IMPORTED_MODULE_2__.Cart,
         exact: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
-        path: "/order",
-        component: _pages__WEBPACK_IMPORTED_MODULE_2__.Order,
-        exact: true
       })]
     })]
   });
@@ -6207,11 +6203,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _assets_img_empty_cart_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/img/empty-cart.png */ "./resources/js/assets/img/empty-cart.png");
-/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components */ "./resources/js/components/index.js");
-/* harmony import */ var _redux_actions_cart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../redux/actions/cart */ "./resources/js/redux/actions/cart.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Form.js");
+/* harmony import */ var react_input_mask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-input-mask */ "./node_modules/react-input-mask/index.js");
+/* harmony import */ var react_input_mask__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_input_mask__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _assets_img_empty_cart_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/img/empty-cart.png */ "./resources/js/assets/img/empty-cart.png");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components */ "./resources/js/components/index.js");
+/* harmony import */ var _redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../redux/actions/cart */ "./resources/js/redux/actions/cart.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -6230,7 +6237,15 @@ function Cart() {
   }),
       totalPrice = _useSelector.totalPrice,
       totalCount = _useSelector.totalCount,
-      items = _useSelector.items;
+      items = _useSelector.items,
+      isValid = _useSelector.isValid,
+      isSubmitted = _useSelector.isSubmitted,
+      email = _useSelector.email,
+      name = _useSelector.name,
+      phone = _useSelector.phone,
+      code = _useSelector.code,
+      address = _useSelector.address,
+      isOrdering = _useSelector.isOrdering;
 
   var addedPizzas = Object.keys(items).map(function (key) {
     return items[key].items[0];
@@ -6238,55 +6253,191 @@ function Cart() {
 
   var onClearCart = function onClearCart() {
     if (window.confirm('Do you want to clean cart?')) {
-      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_4__.clearCart)());
+      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.clearCart)());
     }
   };
 
   var onRemoveItem = function onRemoveItem(id) {
     if (window.confirm('Do you want to delete item?')) {
-      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_4__.removeCartItem)(id));
+      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.removeCartItem)(id));
     }
   };
 
   var onPlusItem = function onPlusItem(id) {
-    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_4__.plusCartItem)(id));
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.plusCartItem)(id));
   };
 
   var onMinusItem = function onMinusItem(id) {
-    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_4__.minusCartItem)(id));
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.minusCartItem)(id));
   };
 
   var onClickOrder = function onClickOrder() {
-    console.log('YOUR ORDER', items);
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setOrderingStatus)(true));
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+  var onClickOrderBack = function onClickOrderBack() {
+    if (isSubmitted) {
+      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setSubmitted)(false));
+    }
+
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setOrderingStatus)(false));
+  };
+
+  var onNameType = function onNameType(name) {
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setName)(name.target.value));
+  };
+
+  var onEmailType = function onEmailType(mail) {
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setMail)(mail.target.value));
+  };
+
+  var onPhoneType = function onPhoneType(phone) {
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setPhone)(phone.target.value));
+  };
+
+  var onAddressType = function onAddressType(address) {
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setAddress)(address.target.value));
+  };
+
+  var onCodeType = function onCodeType(code) {
+    dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.setCode)(code.target.value));
+  };
+
+  var onSubmit = function onSubmit() {
+    var valid = address.length > 3 && name.length > 3 && email.length > 10 && phone.length >= 16;
+
+    if (valid && !isSubmitted) {
+      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.submit)(email, phone, address, name));
+    } else if (code.length == 4 && isSubmitted) {
+      dispatch((0,_redux_actions_cart__WEBPACK_IMPORTED_MODULE_5__.confirmCode)(code));
+    }
+  };
+
+  var form;
+
+  if (isSubmitted) {
+    form = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        className: "mb-3",
+        controlId: "formCode",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+          children: "Code"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_input_mask__WEBPACK_IMPORTED_MODULE_2___default()), {
+          mask: "****",
+          onChange: onCodeType,
+          children: function children(inputProps) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, _objectSpread(_objectSpread({}, inputProps), {}, {
+              type: "code",
+              placeholder: "****"
+            }));
+          }
+        })]
+      })
+    });
+  } else {
+    form = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        className: "mb-3",
+        controlId: "formName",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+          children: "Name"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+          type: "name",
+          placeholder: "Name",
+          onChange: onNameType,
+          disabled: isSubmitted
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        className: "mb-3",
+        controlId: "formPhone",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+          children: "Phone number"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react_input_mask__WEBPACK_IMPORTED_MODULE_2___default()), {
+          mask: "+998 99 999 99 99",
+          onChange: onPhoneType,
+          disabled: isSubmitted,
+          children: function children(inputProps) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, _objectSpread(_objectSpread({}, inputProps), {}, {
+              type: "phone",
+              placeholder: "+998 90 000 00 00",
+              disabled: inputProps.disabled ? props.disabled : null
+            }));
+          }
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        className: "mb-3",
+        controlId: "formAddress",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+          children: "Address"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+          type: "address",
+          placeholder: "Address",
+          onChange: onAddressType,
+          disabled: isSubmitted
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        className: "mb-3",
+        controlId: "formEmail",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+          children: "Email address"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+          type: "email",
+          placeholder: "Enter email",
+          onChange: onEmailType,
+          disabled: isSubmitted
+        })]
+      })]
+    });
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
     className: "container container--cart",
-    children: totalCount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: totalCount ? isOrdering ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      className: "container order",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "bootstrap-inside",
+        children: form
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        className: "cart__bottom-buttons",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+          onClick: onClickOrderBack,
+          className: "button button--black",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: "Back"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+          onClick: onSubmit,
+          className: "pay-btn",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: "Submit"
+          })
+        })]
+      })]
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "cart",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "cart__top",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h2", {
           className: "content__title",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("svg", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("svg", {
             width: "18",
             height: "18",
             viewBox: "0 0 18 18",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z",
               stroke: "white",
               strokeWidth: "1.8",
               strokeLinecap: "round",
               strokeLinejoin: "round"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M14.3333 16.3333C15.0697 16.3333 15.6667 15.7364 15.6667 15C15.6667 14.2636 15.0697 13.6667 14.3333 13.6667C13.597 13.6667 13 14.2636 13 15C13 15.7364 13.597 16.3333 14.3333 16.3333Z",
               stroke: "white",
               strokeWidth: "1.8",
               strokeLinecap: "round",
               strokeLinejoin: "round"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M4.78002 4.99999H16.3334L15.2134 10.5933C15.1524 10.9003 14.9854 11.176 14.7417 11.3722C14.4979 11.5684 14.1929 11.6727 13.88 11.6667H6.83335C6.50781 11.6694 6.1925 11.553 5.94689 11.3393C5.70128 11.1256 5.54233 10.8295 5.50002 10.5067L4.48669 2.82666C4.44466 2.50615 4.28764 2.21182 4.04482 1.99844C3.80201 1.78505 3.48994 1.66715 3.16669 1.66666H1.66669",
               stroke: "white",
               strokeWidth: "1.8",
@@ -6294,48 +6445,48 @@ function Cart() {
               strokeLinejoin: "round"
             })]
           }), "Cart"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "cart__clear",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("svg", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("svg", {
             width: "20",
             height: "20",
             viewBox: "0 0 20 20",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M2.5 5H4.16667H17.5",
               stroke: "#B6B6B6",
               strokeWidth: "1.2",
               strokeLinecap: "round",
               strokeLinejoin: "round"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M6.66663 5.00001V3.33334C6.66663 2.89131 6.84222 2.46739 7.15478 2.15483C7.46734 1.84227 7.89127 1.66667 8.33329 1.66667H11.6666C12.1087 1.66667 12.5326 1.84227 12.8451 2.15483C13.1577 2.46739 13.3333 2.89131 13.3333 3.33334V5.00001M15.8333 5.00001V16.6667C15.8333 17.1087 15.6577 17.5326 15.3451 17.8452C15.0326 18.1577 14.6087 18.3333 14.1666 18.3333H5.83329C5.39127 18.3333 4.96734 18.1577 4.65478 17.8452C4.34222 17.5326 4.16663 17.1087 4.16663 16.6667V5.00001H15.8333Z",
               stroke: "#B6B6B6",
               strokeWidth: "1.2",
               strokeLinecap: "round",
               strokeLinejoin: "round"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M8.33337 9.16667V14.1667",
               stroke: "#B6B6B6",
               strokeWidth: "1.2",
               strokeLinecap: "round",
               strokeLinejoin: "round"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
               d: "M11.6666 9.16667V14.1667",
               stroke: "#B6B6B6",
               strokeWidth: "1.2",
               strokeLinecap: "round",
               strokeLinejoin: "round"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
             onClick: onClearCart,
-            children: "\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u043A\u043E\u0440\u0437\u0438\u043D\u0443"
+            children: "Clean cart"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "content__items",
         children: addedPizzas.map(function (obj) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components__WEBPACK_IMPORTED_MODULE_3__.CartItem, {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components__WEBPACK_IMPORTED_MODULE_4__.CartItem, {
             id: obj.id,
             name: obj.name,
             type: obj.type,
@@ -6347,70 +6498,67 @@ function Cart() {
             onPlus: onPlusItem
           }, obj.id);
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "cart__bottom",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "cart__bottom-details",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-            children: ["Total pizzas: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("b", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+            children: ["Total pizzas: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("b", {
               children: [totalCount, " \u0448\u0442."]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-            children: ["Order price: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("b", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+            children: ["Order price: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("b", {
               children: [totalPrice, " \u20BD"]
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "cart__bottom-buttons",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("a", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("a", {
             href: "/",
             className: "button button--outline button--add go-back-btn",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("svg", {
               width: "8",
               height: "14",
               viewBox: "0 0 8 14",
               fill: "none",
               xmlns: "http://www.w3.org/2000/svg",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
                 d: "M7 13L1 6.93015L6.86175 1",
                 stroke: "#D3D3D3",
                 strokeWidth: "1.5",
                 strokeLinecap: "round",
                 strokeLinejoin: "round"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Link, {
               to: "/",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 children: "Back"
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
-            to: "/order",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
-              onClick: onClickOrder,
-              className: "pay-btn",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: "Pay now"
-              })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+            onClick: onClickOrder,
+            className: "pay-btn",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: "Pay now"
             })
           })]
         })]
       })]
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "cart cart--empty",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h2", {
-        children: ["Cart is empty ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h2", {
+        children: ["Cart is empty ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
           children: "\uD83D\uDE15"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
-        children: ["Probably you didn't order any pizza.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), "To order a pizza go to main page."]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-        src: _assets_img_empty_cart_png__WEBPACK_IMPORTED_MODULE_2__["default"],
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+        children: ["Probably you didn't order any pizza.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), "To order a pizza go to main page."]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+        src: _assets_img_empty_cart_png__WEBPACK_IMPORTED_MODULE_3__["default"],
         alt: "Empty cart"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Link, {
         to: "/",
         className: "button button--black",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
           children: "Back"
         })
       })]
@@ -6542,182 +6690,6 @@ function Home() {
 
 /***/ }),
 
-/***/ "./resources/js/pages/Order.jsx":
-/*!**************************************!*\
-  !*** ./resources/js/pages/Order.jsx ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Form.js");
-/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components */ "./resources/js/components/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _redux_actions_order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redux/actions/order */ "./resources/js/redux/actions/order.js");
-/* harmony import */ var react_input_mask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-input-mask */ "./node_modules/react-input-mask/index.js");
-/* harmony import */ var react_input_mask__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_input_mask__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-
-
-
-
-
-function Order() {
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
-
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (_ref) {
-    var order = _ref.order;
-    return order;
-  }),
-      isValid = _useSelector.isValid,
-      isSubmitted = _useSelector.isSubmitted,
-      email = _useSelector.email,
-      name = _useSelector.name,
-      phone = _useSelector.phone,
-      code = _useSelector.code,
-      address = _useSelector.address;
-
-  var onNameType = function onNameType(name) {
-    dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.setName)(name.target.value));
-  };
-
-  var onEmailType = function onEmailType(mail) {
-    dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.setMail)(mail.target.value));
-  };
-
-  var onPhoneType = function onPhoneType(phone) {
-    dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.setPhone)(phone.target.value));
-  };
-
-  var onAddressType = function onAddressType(address) {
-    dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.setAddress)(address.target.value));
-  };
-
-  var onCodeType = function onCodeType(code) {
-    dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.setCode)(code.target.value));
-  };
-
-  var onSubmit = function onSubmit() {
-    console.log(isValid);
-
-    if (isValid && !isSubmitted) {
-      dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.submit)(email, phone, address, name));
-    } else if (isValid && isSubmitted) {
-      dispatch((0,_redux_actions_order__WEBPACK_IMPORTED_MODULE_3__.confirmCode)(code));
-    }
-  };
-
-  var form;
-
-  if (isSubmitted) {
-    form = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
-        className: "mb-3",
-        controlId: "formCode",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Label, {
-          children: "Code"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)((react_input_mask__WEBPACK_IMPORTED_MODULE_4___default()), {
-          mask: "****",
-          onChange: onCodeType,
-          children: function children(inputProps) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, _objectSpread(_objectSpread({}, inputProps), {}, {
-              type: "code",
-              placeholder: "****"
-            }));
-          }
-        })]
-      })
-    });
-  } else {
-    form = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
-        className: "mb-3",
-        controlId: "formName",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Label, {
-          children: "Name"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
-          type: "name",
-          placeholder: "Name",
-          onChange: onNameType,
-          disabled: isSubmitted
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
-        className: "mb-3",
-        controlId: "formPhone",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Label, {
-          children: "Phone number"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)((react_input_mask__WEBPACK_IMPORTED_MODULE_4___default()), {
-          mask: "+998 99 999 99 99",
-          onChange: onPhoneType,
-          disabled: isSubmitted,
-          children: function children(inputProps) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, _objectSpread(_objectSpread({}, inputProps), {}, {
-              type: "phone",
-              placeholder: "+998 90 000 00 00",
-              disabled: inputProps.disabled ? props.disabled : null
-            }));
-          }
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
-        className: "mb-3",
-        controlId: "formAddress",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Label, {
-          children: "Address"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
-          type: "address",
-          placeholder: "Address",
-          onChange: onAddressType,
-          disabled: isSubmitted
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
-        className: "mb-3",
-        controlId: "formEmail",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Label, {
-          children: "Email address"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
-          type: "email",
-          placeholder: "Enter email",
-          onChange: onEmailType,
-          disabled: isSubmitted
-        })]
-      })]
-    });
-  }
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-    className: "container order",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      className: "bootstrap-inside",
-      children: form
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("center", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-        variant: "primary",
-        type: "submit",
-        onClick: onSubmit,
-        children: "Submit"
-      })
-    })]
-  });
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Order);
-
-/***/ }),
-
 /***/ "./resources/js/pages/index.js":
 /*!*************************************!*\
   !*** ./resources/js/pages/index.js ***!
@@ -6728,13 +6700,10 @@ function Order() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Cart": () => (/* reexport safe */ _Cart__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   "Home": () => (/* reexport safe */ _Home__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   "Order": () => (/* reexport safe */ _Order__WEBPACK_IMPORTED_MODULE_2__["default"])
+/* harmony export */   "Home": () => (/* reexport safe */ _Home__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home */ "./resources/js/pages/Home.jsx");
 /* harmony import */ var _Cart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Cart */ "./resources/js/pages/Cart.jsx");
-/* harmony import */ var _Order__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Order */ "./resources/js/pages/Order.jsx");
-
 
 
 
@@ -6751,9 +6720,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addPizzaToCart": () => (/* binding */ addPizzaToCart),
 /* harmony export */   "clearCart": () => (/* binding */ clearCart),
+/* harmony export */   "confirmCode": () => (/* binding */ confirmCode),
 /* harmony export */   "minusCartItem": () => (/* binding */ minusCartItem),
 /* harmony export */   "plusCartItem": () => (/* binding */ plusCartItem),
-/* harmony export */   "removeCartItem": () => (/* binding */ removeCartItem)
+/* harmony export */   "removeCartItem": () => (/* binding */ removeCartItem),
+/* harmony export */   "setAddress": () => (/* binding */ setAddress),
+/* harmony export */   "setCode": () => (/* binding */ setCode),
+/* harmony export */   "setMail": () => (/* binding */ setMail),
+/* harmony export */   "setName": () => (/* binding */ setName),
+/* harmony export */   "setOrderingStatus": () => (/* binding */ setOrderingStatus),
+/* harmony export */   "setPhone": () => (/* binding */ setPhone),
+/* harmony export */   "setSubmitted": () => (/* binding */ setSubmitted),
+/* harmony export */   "submit": () => (/* binding */ submit)
 /* harmony export */ });
 var addPizzaToCart = function addPizzaToCart(pizzaObj) {
   return {
@@ -6782,6 +6760,84 @@ var minusCartItem = function minusCartItem(id) {
   return {
     type: 'MINUS_CART_ITEM',
     payload: id
+  };
+};
+var setMail = function setMail(payload) {
+  return {
+    type: 'SET_EMAIL',
+    payload: payload
+  };
+};
+var setAddress = function setAddress(payload) {
+  return {
+    type: 'SET_ADDRESS',
+    payload: payload
+  };
+};
+var setPhone = function setPhone(payload) {
+  return {
+    type: 'SET_PHONE',
+    payload: payload
+  };
+};
+var setCode = function setCode(payload) {
+  return {
+    type: 'SET_CODE',
+    payload: payload
+  };
+};
+var setName = function setName(payload) {
+  return {
+    type: 'SET_NAME',
+    payload: payload
+  };
+};
+var setOrderingStatus = function setOrderingStatus(payload) {
+  return {
+    type: 'SET_ORDERING_STATUS',
+    payload: payload
+  };
+};
+var setSubmitted = function setSubmitted(payload) {
+  return {
+    type: 'UPDATE_STATE',
+    payload: payload
+  };
+};
+
+var _setConfirm = function _setConfirm(payload) {
+  return {
+    type: 'CONFIRM',
+    payload: payload
+  };
+};
+
+var submit = function submit(email, phone, address, name) {
+  return function (dispatch) {
+    dispatch(setSubmitted(true)); //   axios
+    //     .post(
+    //       `/api/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
+    //         sortBy.order
+    //       }`,
+    //     )
+    //     .then(({ data }) => {
+    //       dispatch(setPizzas(data));
+    //     });
+  };
+};
+var confirmCode = function confirmCode(code) {
+  return function (dispatch) {
+    dispatch(_setConfirm(true));
+    dispatch(clearCart(true));
+    dispatch(setOrderingStatus(false)); //   axios
+    //     .post(
+    //       `/api/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
+    //         sortBy.order
+    //       }`,
+    //     )
+    //     .then(({ data }) => {
+    //       dispatch(setPizzas(data));
+    //     });
   };
 };
 
@@ -6814,100 +6870,6 @@ var setCategory = function setCategory(catIndex) {
   return {
     type: 'SET_CATEGORY',
     payload: catIndex
-  };
-};
-
-/***/ }),
-
-/***/ "./resources/js/redux/actions/order.js":
-/*!*********************************************!*\
-  !*** ./resources/js/redux/actions/order.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "confirmCode": () => (/* binding */ confirmCode),
-/* harmony export */   "setAddress": () => (/* binding */ setAddress),
-/* harmony export */   "setCode": () => (/* binding */ setCode),
-/* harmony export */   "setMail": () => (/* binding */ setMail),
-/* harmony export */   "setName": () => (/* binding */ setName),
-/* harmony export */   "setPhone": () => (/* binding */ setPhone),
-/* harmony export */   "submit": () => (/* binding */ submit)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-var setMail = function setMail(payload) {
-  return {
-    type: 'SET_EMAIL',
-    payload: payload
-  };
-};
-var setAddress = function setAddress(payload) {
-  return {
-    type: 'SET_ADDRESS',
-    payload: payload
-  };
-};
-var setPhone = function setPhone(payload) {
-  return {
-    type: 'SET_PHONE',
-    payload: payload
-  };
-};
-var setCode = function setCode(payload) {
-  return {
-    type: 'SET_CODE',
-    payload: payload
-  };
-};
-var setName = function setName(payload) {
-  return {
-    type: 'SET_NAME',
-    payload: payload
-  };
-};
-
-var _setState = function _setState(payload) {
-  return {
-    type: 'UPDATE_STATE',
-    payload: payload
-  };
-};
-
-var _setConfirm = function _setConfirm(payload) {
-  return {
-    type: 'CONFIRM',
-    payload: payload
-  };
-};
-
-var submit = function submit(email, phone, address, name) {
-  return function (dispatch) {
-    dispatch(_setState(true)); //   axios
-    //     .post(
-    //       `/api/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
-    //         sortBy.order
-    //       }`,
-    //     )
-    //     .then(({ data }) => {
-    //       dispatch(setPizzas(data));
-    //     });
-  };
-};
-var confirmCode = function confirmCode(code) {
-  return function (dispatch) {
-    dispatch(_setConfirm(true)); //   axios
-    //     .post(
-    //       `/api/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy.type}&_order=${
-    //         sortBy.order
-    //       }`,
-    //     )
-    //     .then(({ data }) => {
-    //       dispatch(setPizzas(data));
-    //     });
   };
 };
 
@@ -6994,7 +6956,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var initialState = {
   items: {},
   totalPrice: 0,
-  totalCount: 0
+  totalCount: 0,
+  isSubmitted: false,
+  isConfirmed: false,
+  phone: "",
+  address: "",
+  email: "",
+  code: "",
+  name: "",
+  isValid: false,
+  isOrdering: false
 };
 
 var getTotalPrice = function getTotalPrice(arr) {
@@ -7108,6 +7079,56 @@ var cart = function cart() {
         items: {}
       };
 
+    case 'SET_ORDERING_STATUS':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        isOrdering: action.payload
+      });
+
+    case 'SET_PHONE':
+      console.log(state.address.length > 3);
+      console.log(state.name.length > 3);
+      console.log(state.email.length > 10);
+      console.log(state.phone.length >= 16);
+      return _objectSpread(_objectSpread({}, state), {}, {
+        phone: action.payload,
+        isValid: state.address.length > 3 && state.name.length > 3 && state.email.length > 10 && state.phone.length >= 16
+      });
+
+    case 'SET_ADDRESS':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        address: action.payload,
+        isValid: state.name.length > 3 && state.phone.length >= 17 && state.email.length > 10 && state.address.length > 2
+      });
+
+    case 'SET_EMAIL':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        email: action.payload,
+        isValid: state.address.length > 3 && state.phone.length.length >= 17 && state.name.length > 3 && state.email.length > 9
+      });
+
+    case 'SET_CODE':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        isValid: action.payload.length == 4,
+        code: action.payload
+      });
+
+    case 'SET_NAME':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        name: action.payload,
+        isValid: state.address.length > 3 && state.phone.length.length >= 17 && state.email.length > 10 && state.name.length > 2
+      });
+
+    case 'UPDATE_STATE':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        isSubmitted: action.payload,
+        isValid: false
+      });
+
+    case 'CONFIRM':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        isConfirmed: action.payload
+      });
+
     default:
       return state;
   }
@@ -7176,106 +7197,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filters */ "./resources/js/redux/reducers/filters.js");
 /* harmony import */ var _pizzas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pizzas */ "./resources/js/redux/reducers/pizzas.js");
 /* harmony import */ var _cart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cart */ "./resources/js/redux/reducers/cart.js");
-/* harmony import */ var _order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./order */ "./resources/js/redux/reducers/order.js");
 
 
 
 
-
-var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_4__.combineReducers)({
+var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
   filters: _filters__WEBPACK_IMPORTED_MODULE_0__["default"],
   pizzas: _pizzas__WEBPACK_IMPORTED_MODULE_1__["default"],
-  cart: _cart__WEBPACK_IMPORTED_MODULE_2__["default"],
-  order: _order__WEBPACK_IMPORTED_MODULE_3__["default"]
+  cart: _cart__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rootReducer);
-
-/***/ }),
-
-/***/ "./resources/js/redux/reducers/order.js":
-/*!**********************************************!*\
-  !*** ./resources/js/redux/reducers/order.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var initialState = {
-  isSubmitted: false,
-  isConfirmed: false,
-  phone: "",
-  address: "",
-  email: "",
-  code: "",
-  name: "",
-  isValid: false
-};
-
-var order = function order() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_PHONE':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        phone: action.payload,
-        isValid: state.address.length > 3 && state.name.length > 3 && state.email.length > 10 && state.phone.length == 16
-      });
-
-    case 'SET_ADDRESS':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        address: action.payload,
-        isValid: state.name.length > 3 && state.phone.length == 17 && state.email.length > 10 && state.address.length > 2
-      });
-
-    case 'SET_EMAIL':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        email: action.payload,
-        isValid: state.address.length > 3 && state.phone.length.length == 17 && state.name.length > 3 && state.email.length > 9
-      });
-
-    case 'SET_CODE':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        isValid: action.payload.length == 4,
-        code: action.payload
-      });
-
-    case 'SET_NAME':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        name: action.payload,
-        isValid: state.address.length > 3 && state.phone.length.length == 17 && state.email.length > 10 && state.name.length > 2
-      });
-
-    case 'UPDATE_STATE':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        isSubmitted: action.payload,
-        isValid: false
-      });
-
-    case 'CONFIRM':
-      return _objectSpread(_objectSpread({}, state), {}, {
-        isConfirmed: action.payload
-      });
-
-    default:
-      return state;
-  }
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (order);
 
 /***/ }),
 

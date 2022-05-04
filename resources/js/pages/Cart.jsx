@@ -1,14 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
+import InputMask from 'react-input-mask';
+
 
 import cartEmptyImage from '../assets/img/empty-cart.png';
 import { CartItem, Button } from '../components';
-import { clearCart, removeCartItem, plusCartItem, minusCartItem } from '../redux/actions/cart';
+import { clearCart, removeCartItem, plusCartItem, minusCartItem, setOrderingStatus, setMail, setPhone, setAddress, submit, setCode, setName, confirmCode, setSubmitted } from '../redux/actions/cart';
 
 function Cart() {
   const dispatch = useDispatch();
-  const { totalPrice, totalCount, items } = useSelector(({ cart }) => cart);
+  const { totalPrice, totalCount, items, isValid, isSubmitted, email, name, phone, code, address, isOrdering } = useSelector(({ cart }) => cart);
 
   const addedPizzas = Object.keys(items).map((key) => {
     return items[key].items[0];
@@ -35,12 +38,112 @@ function Cart() {
   };
 
   const onClickOrder = () => {
-    console.log('YOUR ORDER', items);
+    dispatch(setOrderingStatus(true));
   };
+
+  const onClickOrderBack = () => {
+    if(isSubmitted){
+      dispatch(setSubmitted(false));
+
+    }
+    dispatch(setOrderingStatus(false));
+  };
+
+
+  const onNameType = (name) => {
+    dispatch(setName(name.target.value));
+  };
+
+  const onEmailType = (mail) => {
+    dispatch(setMail(mail.target.value));
+  };
+
+  const onPhoneType = (phone) => {
+    dispatch(setPhone(phone.target.value));
+  };
+
+  const onAddressType = (address) => {
+    dispatch(setAddress(address.target.value));
+  };
+
+  const onCodeType = (code) => {
+    dispatch(setCode(code.target.value));
+  };
+
+  const onSubmit = () => {
+    let valid = address.length > 3 && name.length > 3 && email.length > 10 && phone.length >= 16
+    if (valid && !isSubmitted) {
+      dispatch(submit(email, phone, address, name));
+    } else if (code.length==4 && isSubmitted) {
+      dispatch(confirmCode(code));
+    }
+  };
+
+  let form;
+
+  if (isSubmitted) {
+    form = <Form>
+      <Form.Group className="mb-3" controlId="formCode">
+        <Form.Label>Code</Form.Label>
+        <InputMask mask="****" onChange={onCodeType}>
+          {(inputProps) =>
+            <Form.Control {...inputProps} type="code" placeholder="****" />}
+        </InputMask>
+
+      </Form.Group>
+    </Form>
+
+  } else {
+    form = <Form>
+      <Form.Group className="mb-3" controlId="formName">
+        <Form.Label>Name</Form.Label>
+
+        <Form.Control type="name" placeholder="Name" onChange={onNameType} disabled={isSubmitted} />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formPhone">
+        <Form.Label>Phone number</Form.Label>
+        <InputMask mask="+998 99 999 99 99" onChange={onPhoneType} disabled={isSubmitted}>
+          {(inputProps) => <Form.Control {...inputProps} type="phone" placeholder="+998 90 000 00 00" disabled={inputProps.disabled ? props.disabled : null}
+          />}
+
+        </InputMask>
+
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formAddress">
+        <Form.Label>Address</Form.Label>
+        <Form.Control type="address" placeholder="Address" onChange={onAddressType} disabled={isSubmitted} />
+      </Form.Group>
+
+
+
+      <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" onChange={onEmailType} disabled={isSubmitted} />
+      </Form.Group>
+    </Form>
+
+  }
 
   return (
     <div className="container container--cart">
-      {totalCount ? (
+      {totalCount ? isOrdering ? (
+        <div className="container order">
+          <div className="bootstrap-inside">
+            {form}
+          </div>
+          <div className="cart__bottom-buttons">
+            <button onClick={onClickOrderBack} className="button button--black">
+              <span>Back</span>
+            </button>
+
+            <Button onClick={onSubmit} className="pay-btn">
+              <span>Submit</span>
+            </Button>
+          </div>
+        </div>
+      ) : (
         <div className="cart">
           <div className="cart__top">
             <h2 className="content__title">
@@ -111,7 +214,7 @@ function Cart() {
                 />
               </svg>
 
-              <span onClick={onClearCart}>Очистить корзину</span>
+              <span onClick={onClearCart}>Clean cart</span>
             </div>
           </div>
           <div className="content__items">
@@ -136,7 +239,7 @@ function Cart() {
                 Total pizzas: <b>{totalCount} шт.</b>
               </span>
               <span>
-              Order price: <b>{totalPrice} ₽</b>
+                Order price: <b>{totalPrice} ₽</b>
               </span>
             </div>
             <div className="cart__bottom-buttons">
@@ -159,11 +262,9 @@ function Cart() {
                   <span>Back</span>
                 </Link>
               </a>
-              <Link to="/order">
               <Button onClick={onClickOrder} className="pay-btn">
                 <span>Pay now</span>
               </Button>
-              </Link>
             </div>
           </div>
         </div>
